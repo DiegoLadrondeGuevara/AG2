@@ -28,7 +28,7 @@ Puedes instalar todas las dependencias con:
 
 ```bash
 pip install numpy pandas matplotlib scipy
-
+```
 ---
 ### Pregunta 10 (Detalles de resultados sobre el código)
 
@@ -52,3 +52,20 @@ Comparando `v(t)` sin memoria (analítico) y con memoria (numérico) para `μ = 
 
 **Ejemplo numérico en `t = 0.001 s`:**
 
+```text
+v_sin_memoria(0.001) = 4.36000000 × 10⁻⁵ m/s
+v_con_memoria(0.001) ≈ 4.35781601 × 10⁻⁵ m/s
+```
+
+- Diferencia absoluta: ≈ `2.18 × 10⁻⁸ m/s`  
+- Diferencia relativa: ≈ `5 × 10⁻⁴` (≈ 0.05%)
+
+---
+
+La gráfica comparativa (se proporcionó) muestra que la memoria produce una ligera reducción de la velocidad en todo el intervalo:  
+El término de memoria actúa como una **fuerza retardante adicional dependiente del historial de la velocidad**.  
+
+Con los parámetros dados (`α` relativamente pequeño), el efecto es pequeño (fracción de 0.1% o menos en este caso), pero su dirección es clara:  
+> **Mayor fricción efectiva → menor velocidad**
+
+Con `α` mayor o `β` distinto, el efecto podría ser mucho más marcado.

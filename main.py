@@ -111,8 +111,78 @@ def integrate_memory(mu, alpha=alpha, beta=beta, dt_small=1e-6, t_max=0.001):
 # Integrar para μ = 1e-3 (agua)
 t_full, v_mem_full, w_full = integrate_memory(mu1, dt_small=1e-6, t_max=0.001)
 
+
+
 # Interpolar valores de v_mem en t_sample
 v_mem_sample = np.interp(t_sample, t_full, v_mem_full)
+
+# --- Diagnóstico: diferencias numéricas entre sin memoria y con memoria ---
+diff = v_mem_sample - v_analytic
+abs_max = np.max(np.abs(diff))
+rel_max = abs_max / np.max(np.abs(v_analytic) + 1e-20)  # evitar división por cero
+
+print(f"\nDiagnóstico de diferencias:")
+print(f"Máxima diferencia absoluta |v_mem - v_analytic| = {abs_max:.3e} m/s")
+print(f"Diferencia relativa máxima (aprox) = {rel_max:.3e}")
+
+# Mostrar tabla de diferencias en los tiempos muestreados
+df_diff = pd.DataFrame({
+    "t (s)": t_sample,
+    "v_analytic (m/s)": v_analytic,
+    "v_with_memory (m/s)": v_mem_sample,
+    "diff (m/s)": diff
+})
+print("\nTabla comparativa (con diferencia mostrada):")
+print(df_diff.to_string(index=False))
+
+# --- Graficar la diferencia y hacer un zoom donde exista mayor discrepancia ---
+plt.figure(figsize=(8,4))
+plt.plot(t_sample, diff, marker='o', linestyle='-', label='v_with_memory - v_analytic')
+plt.xlabel('t (s)')
+plt.ylabel('d v (m/s)')
+plt.title('Diferencia entre solución con memoria y sin memoria (mu=1e-3)')
+plt.grid(True)
+plt.legend()
+plt.show()
+
+# Zoom en los primeros instantes (donde la variación es mayor)
+plt.figure(figsize=(8,4))
+plt.plot(t_sample, diff, marker='o', linestyle='-')
+plt.xlim(0, min(0.0003, t_sample[-1]))   # zoom en 0..0.0003s
+plt.xlabel('t (s)')
+plt.ylabel('d v (m/s)')
+plt.title('Zoom (0 - 0.0003 s) de la diferencia v_mem - v_analytic')
+plt.grid(True)
+plt.show()
+
+# Si quieres ver la relación porcentual:
+plt.figure(figsize=(8,4))
+pct = 100.0 * diff / (v_analytic + 1e-20)
+plt.plot(t_sample, pct, marker='o')
+plt.xlabel('t (s)')
+plt.ylabel('Diferencia relativa (%)')
+plt.title('Diferencia relativa (%) entre con memoria y sin memoria')
+plt.grid(True)
+plt.show()
+
+# --- Mejora: graficar v(t) y x(t) usando eje y secundario (no se "sobrescriban") ---
+plt.figure(figsize=(8,5))
+ax1 = plt.gca()
+ax1.plot(t_sample, v_analytic, label='v(t) (m/s)', marker='o')
+ax1.plot(t_sample, v_mem_sample, label='v con memoria (m/s)', marker='x')
+ax1.set_xlabel('t (s)')
+ax1.set_ylabel('v (m/s)')
+ax1.legend(loc='upper left')
+ax1.grid(True)
+
+ax2 = ax1.twinx()
+ax2.plot(t_sample, x_analytic, label='x(t) (m)', color='tab:green', linestyle='--')
+ax2.set_ylabel('x (m)')
+ax2.legend(loc='upper right')
+
+plt.title('v(t) (con y sin memoria) y x(t) (eje derecho)')
+plt.show()
+
 
 # Crear tabla comparativa v sin memoria / con memoria
 df_comp_mem = pd.DataFrame({
