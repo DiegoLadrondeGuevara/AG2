@@ -27,4 +27,28 @@ Este proyecto requiere Python 3.x y las siguientes librerías:
 Puedes instalar todas las dependencias con:
 
 ```bash
-pip install numpy pandas matplotlib
+pip install numpy pandas matplotlib scipy
+
+---
+### Pregunta 10 (Detalles de resultados sobre el código)
+
+**Variables:**  
+`v(t)` (velocidad) y `w(t)` (memoria/convolución)
+
+**Parámetros memoria:**  
+`α = 10⁻⁷ kg/s²`, `β = 5.0 s⁻¹`
+
+**Integrador:**  
+RK4 con paso `dt = 10⁻⁶` s (1000 pasos para 0.001 s)
+
+**Resultado:**  
+Vector `v(t)` numérico con memoria; comparación directa con la solución analítica sin memoria.
+
+---
+
+### Resultados numéricos y efectos observados
+
+Comparando `v(t)` sin memoria (analítico) y con memoria (numérico) para `μ = 1·10⁻³`:
+
+**Ejemplo numérico en `t = 0.001 s`:**
+
