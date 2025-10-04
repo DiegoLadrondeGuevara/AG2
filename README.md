@@ -62,7 +62,7 @@ v_con_memoria(0.001) ≈ 4.35781601 × 10⁻⁵ m/s
 
 ---
 
-La gráfica comparativa (se proporcionó) muestra que la memoria produce una ligera reducción de la velocidad en todo el intervalo:  
+La gráfica comparativa (generada en código) muestra que la memoria produce una ligera reducción de la velocidad en todo el intervalo:  
 El término de memoria actúa como una **fuerza retardante adicional dependiente del historial de la velocidad**.  
 
 Con los parámetros dados (`α` relativamente pequeño), el efecto es pequeño (fracción de 0.1% o menos en este caso), pero su dirección es clara:  
